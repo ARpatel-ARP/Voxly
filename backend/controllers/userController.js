@@ -29,7 +29,7 @@ export const register =  async (req, res) => {
                     fullName,
                     userName,
                     password:hashedPassword,
-                    profilePhoto,
+                    profilePhoto:gender===male? maleProfilePhoto:femaleProfilePhoto
                     gender
                 })
     } catch (error) {
