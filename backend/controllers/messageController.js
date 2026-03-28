@@ -48,8 +48,9 @@ export const getMessage = async (req, res) => {
     try {
         const receiverId = req.params.id
         const senderId = req.id
+        const message = req.id
         const conversation =  await Conversation.findOne({
-            participants:{$all: [senderId, receiverId]}
+            participants:{$all: [senderId, receiverId, message]}
         }).populate("messages")
         if (!conversation) {
       return res.status(200).json([])  // return empty array if no conversation
