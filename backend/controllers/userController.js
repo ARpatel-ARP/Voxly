@@ -44,6 +44,7 @@ export const register =  async (req, res) => {
 export const login = async (req, res) => {
     try {
         const {userName, password} = req.body
+          console.log("LOGIN HIT", userName, password)
         if (!userName || !password) {
             return res.status(400).json({
                 message:"All parameters required to be filled",
@@ -68,7 +69,8 @@ export const login = async (req, res) => {
                 userId: user._id
             }
             const token = await  jwt.sign(tokenData, process.env.JWT_SECRET_KEY, {expiresIn: '1d'})
-            return res.status(200).cookie("token", token, {maxAge:1*24*60*1000, httpOnly:true, sameSite:'strict'}).json({
+            console.log("TOKEN GENERATED", token)
+            return res.status(200).cookie("token", token, {maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly:true, sameSite:'lax', secure:false,}).json({
                 _id:user._id,
                 userName:user.userName,
                 fullName:user.fullName,
@@ -104,5 +106,18 @@ export const getOtherUsers = async (req, res) => {
         console.log(error);
     }
 }
+
+export const getMe = async (req, res) => {
+    try {
+        const user = await User.findById(req.id).select("-password");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        return res.status(200).json(user);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
 
   

@@ -9,10 +9,8 @@ const Simessage = ({ message }) => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
-  const isSender = message?.senderId?.toString() === authUser?._id?.toString(); // ✅
-  console.log("senderId:", message?.senderId);
-console.log("authUser._id:", authUser?._id);
-console.log("isSender:", isSender);
+  const isSender = message?.senderId?.toString() === authUser?._id?.toString();
+
 
   return (
     <div
