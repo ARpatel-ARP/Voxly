@@ -44,7 +44,6 @@ export const register =  async (req, res) => {
 export const login = async (req, res) => {
     try {
         const {userName, password} = req.body
-          console.log("LOGIN HIT", userName, password)
         if (!userName || !password) {
             return res.status(400).json({
                 message:"All parameters required to be filled",
@@ -69,7 +68,7 @@ export const login = async (req, res) => {
                 userId: user._id
             }
             const token = await  jwt.sign(tokenData, process.env.JWT_SECRET_KEY, {expiresIn: '1d'})
-            console.log("TOKEN GENERATED", token)
+            
             return res.status(200).cookie("token", token, {maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly:true, sameSite:'lax', secure:false,}).json({
                 _id:user._id,
                 userName:user.userName,

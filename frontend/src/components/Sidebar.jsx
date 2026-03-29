@@ -29,8 +29,7 @@ const Sidebar = ({ message }) => {
       dispacth(setOtherUsers([convUser]))
     }else{
       toast.error("No such contacts")
-    }
-      
+    }   
   }
   
   return (

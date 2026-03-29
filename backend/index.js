@@ -7,9 +7,9 @@ import userRoute from './routes/userRoutes.js';
 import messageRoute from "./routes/messageRoute.js"
 import cookieParser from 'cookie-parser';
 import cors from "cors"
+import { app, server } from "./socket/socket.js"
 dotenv.config() // call this FIRST, before anything else
 
-const app = express()
 const PORT = process.env.PORT || 5000
 
 app.get("/test-cookie", (req, res) => {
@@ -43,6 +43,6 @@ app.use("/api/v1/message", messageRoute)
 
 connectDB() // call outside app.listen
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`server listening at port ${PORT}`)
 })

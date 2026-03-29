@@ -3,6 +3,8 @@ import HomePage from "./components/HomePage.jsx";
 import Signup from "./components/Signup.jsx";
 import Login from "./components/Login.jsx";
 import useGetAuthUser from "./hooks/useGetAuthUser";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 // ✅ router defined outside component (only created once)
 const router = createBrowserRouter([
@@ -14,7 +16,6 @@ const router = createBrowserRouter([
 // ✅ single App function
 const App = () => {
   useGetAuthUser();
-
   return (
     <div className="p-4 h-screen flex items-center justify-center">
       <RouterProvider router={router} />
