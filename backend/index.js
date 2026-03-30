@@ -30,7 +30,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.NODE_ENV === "production"
+        ? false                        // ✅ same origin in production
+        : "http://localhost:5173",     // dev only
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -43,9 +45,9 @@ app.use((req, res, next) => {
 app.use("/api/v1/user", userRoute)
 app.use("/api/v1/message", messageRoute)
 //http://localhost:8000/api/user/register
-app.use(express.static(path.join(_dirname, "/frontend/dist")))
+app.use(express.static(path.join(_dirname, "../frontend/dist")))
 app.get('*', (_, res) => {
-  res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"))
+  res.sendFile(path.resolve(_dirname, "../frontend", "dist", "index.html"))
 }
 )
 
