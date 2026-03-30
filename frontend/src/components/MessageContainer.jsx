@@ -16,7 +16,7 @@ const MessageContainer = ({user}) => {
     );
   }
   
-  const isOnline = onlineUsers.includes(selectedUser?._id)
+  const isOnline = onlineUsers?.includes(selectedUser?._id)
   return (
     <div className="md:min-w-112.5 flex flex-col h-full ">
       {/* Header */}

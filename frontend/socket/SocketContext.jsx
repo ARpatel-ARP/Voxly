@@ -13,7 +13,6 @@ export const SocketProvider = ({ children }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-     console.log("authUser in SocketProvider:", authUser);
     if (authUser?._id) {
       const newSocket = io("http://localhost:8000", {
         query: { userId: authUser._id },
@@ -22,11 +21,9 @@ export const SocketProvider = ({ children }) => {
 
       newSocket.on("getOnlineUsers", (onlineUsers) => {
         dispatch(setOnlineUser(onlineUsers))
-        console.log("Socket connected:", newSocket.id); // ✅ debug
       });
 
       newSocket.on("connect_error", (err) => {
-        console.log("Socket error:", err.message); // ✅ debug
       });
 
       setSocket(newSocket);

@@ -23,7 +23,6 @@ const SendInput = () => {
           withCredentials: true,
         },
       );
-      console.log(res.data);
       dispatch(setMessages([...messages, res?.data?.newMessage]));
       setMessage("")
     } catch (error) {

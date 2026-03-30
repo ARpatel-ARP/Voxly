@@ -8,9 +8,12 @@ import messageRoute from "./routes/messageRoute.js"
 import cookieParser from 'cookie-parser';
 import cors from "cors"
 import { app, server } from "./socket/socket.js"
+import path from 'node:path';
 dotenv.config() // call this FIRST, before anything else
 
 const PORT = process.env.PORT || 5000
+
+const _dirname = path.resolve()
 
 app.get("/test-cookie", (req, res) => {
     res.cookie("testtoken", "hello123", {
@@ -40,6 +43,11 @@ app.use((req, res, next) => {
 app.use("/api/v1/user", userRoute)
 app.use("/api/v1/message", messageRoute)
 //http://localhost:8000/api/user/register
+app.use(express.static(path.join(_dirname, "/frontend/dist")))
+app.get('*', (_, res) => {
+  res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"))
+}
+)
 
 connectDB() // call outside app.listen
 

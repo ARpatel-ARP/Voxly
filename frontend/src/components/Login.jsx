@@ -25,11 +25,9 @@ const Login = () => {
           withCredentials: true,
         },
       );
-      console.log("Full response:", res.data);
       if (res.data) {
         dispatch(setAuthUser(res.data));
         toast.success("Login successful!");
-        console.log("res.data:", res.data);
         setUser({ userName: "", password: "" });
         navigate("/");
       }
