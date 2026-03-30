@@ -1,5 +1,6 @@
 import { Conversation } from "../models/conversation.js";
 import { Message } from "../models/messageModel.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
   try {
@@ -31,6 +32,10 @@ export const sendMessage = async (req, res) => {
     }
 
     // SOCKET.IO
+    const receiverSocketId = getReceiverSocketId(receiverId)
+      if (receiverSocketId) {
+        io.to(receiverSocketId).emit("newMessage", newMessage)
+      }
 
     return res.status(200).json({
       newMessage,
@@ -44,20 +49,22 @@ export const sendMessage = async (req, res) => {
   }
 };
 
+//  GETmessage
 export const getMessage = async (req, res) => {
     try {
         const receiverId = req.params.id
         const senderId = req.id
-        const message = req.id
-        const conversation =  await Conversation.findOne({
-            participants:{$all: [senderId, receiverId, message]}
+
+        const conversation = await Conversation.findOne({
+            participants: { $all: [senderId, receiverId] } // ✅ only 2 participants
         }).populate("messages")
+
         if (!conversation) {
-      return res.status(200).json([])  // return empty array if no conversation
-    }
-        return res.status(200).json(conversation?.messages)
+            return res.status(200).json([])
+        }
+
+        return res.status(200).json(conversation.messages)
     } catch (error) {
-         console.log(error)
+        console.log(error)
     }
-  
 }

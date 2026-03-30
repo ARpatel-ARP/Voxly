@@ -3,8 +3,10 @@ import Simessage from './Simessage.jsx';
 import useGetMessages from '../hooks/useGetMessages.jsx';
 import { useSelector, useDispatch } from 'react-redux';
 import { setMessages } from '../redux/messageSlice.jsx'; 
+import useGetRTmessage from '../hooks/useGetRTmessage.jsx';
 
 const Messages = () => {
+    useGetRTmessage()
     const dispatch = useDispatch();
     const { selectedUser } = useSelector(store => store.user);
     const { messages } = useSelector(store => store.message);
